@@ -58,37 +58,37 @@ class StopManager {
     
     let palamBlockC1 = BusStop(
         name: "Palam Vihar Block C1/Ashok Vihar Phase III",
-        coordinate: CLLocationCoordinate2D(latitude: 28.50018, longitude: 77.02629) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.50018, longitude: 77.02629)
     )
     
     let krishnaChowk = BusStop(
         name: "Krishna Chowk Palam Vihar",
-        coordinate: CLLocationCoordinate2D(latitude: 28.50205, longitude: 77.02888) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.50205, longitude: 77.02888)
     )
     
     let dharamColony = BusStop(
         name: "Dharam Colony",
-        coordinate: CLLocationCoordinate2D(latitude: 28.50354, longitude: 77.03549) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.50354, longitude: 77.03549)
     )
     
     let carterpuriVillage = BusStop(
         name: "Carterpuri Village",
-        coordinate: CLLocationCoordinate2D(latitude: 28.50728, longitude: 77.03933) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.50728, longitude: 77.03933)
     )
     
     let columbiaAsia = BusStop(
         name: "Columbia Asia Hospital",
-        coordinate: CLLocationCoordinate2D(latitude: 28.50935, longitude: 77.04104) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.50935, longitude: 77.04104)
     )
     
     let cosmosApt = BusStop(
         name: "Cosmos Executive Apartment",
-        coordinate: CLLocationCoordinate2D(latitude: 28.51393, longitude: 77.03598) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.51393, longitude: 77.03598)
     )
     
     let ramMandir = BusStop(
         name: "Ram Mandir Palam Vihar",
-        coordinate: CLLocationCoordinate2D(latitude: 28.51501, longitude: 77.03449) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.51501, longitude: 77.03449)
     )
     
     // --- Helper to get all stops as a list ---
