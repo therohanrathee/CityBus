@@ -42,7 +42,7 @@ struct SearchSheetView: View {
                     .font(.system(size: 22, weight: .medium))
                     .foregroundStyle(.secondary)
 
-                TextField("Where To?", text: $searchText)
+                TextField("Where To ?", text: $searchText)
                     .font(.system(size: 20))
                     .textFieldStyle(.plain)
                     .focused($isSearchFocused)
