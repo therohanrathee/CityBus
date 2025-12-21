@@ -6,17 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1C3AFBA02EF7B23D0048D525 /* CityBusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFB9F2EF7B23D0048D525 /* CityBusApp.swift */; };
+		1C3AFBA22EF7B23D0048D525 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA12EF7B23D0048D525 /* ContentView.swift */; };
+		1C3AFBA42EF7B23D0048D525 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA32EF7B23D0048D525 /* Item.swift */; };
+		1C3AFBA62EF7B23E0048D525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA52EF7B23E0048D525 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1C3AFB9C2EF7B23D0048D525 /* CityBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C3AFB9F2EF7B23D0048D525 /* CityBusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityBusApp.swift; sourceTree = "<group>"; };
+		1C3AFBA12EF7B23D0048D525 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1C3AFBA32EF7B23D0048D525 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		1C3AFBA52EF7B23E0048D525 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C3AFBAC2EF7B59F0048D525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C3AFBB42EF7C2BA0048D525 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		1C3AFB9E2EF7B23D0048D525 /* CityBus */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CityBus;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1C3AFB992EF7B23D0048D525 /* Frameworks */ = {
@@ -32,7 +37,11 @@
 		1C3AFB932EF7B23D0048D525 = {
 			isa = PBXGroup;
 			children = (
-				1C3AFB9E2EF7B23D0048D525 /* CityBus */,
+				1C3AFBAF2EF7C1990048D525 /* App */,
+				1C3AFBB12EF7C1FC0048D525 /* View */,
+				1C3AFBB22EF7C2070048D525 /* Managers */,
+				1C3AFBB32EF7C20F0048D525 /* Models */,
+				1C3AFBAC2EF7B59F0048D525 /* Info.plist */,
 				1C3AFB9D2EF7B23D0048D525 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +52,39 @@
 				1C3AFB9C2EF7B23D0048D525 /* CityBus.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1C3AFBAF2EF7C1990048D525 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				1C3AFBA52EF7B23E0048D525 /* Assets.xcassets */,
+				1C3AFB9F2EF7B23D0048D525 /* CityBusApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		1C3AFBB12EF7C1FC0048D525 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C3AFBA12EF7B23D0048D525 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C3AFBB22EF7C2070048D525 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1C3AFBB42EF7C2BA0048D525 /* LocationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		1C3AFBB32EF7C20F0048D525 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1C3AFBA32EF7B23D0048D525 /* Item.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +101,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				1C3AFB9E2EF7B23D0048D525 /* CityBus */,
 			);
 			name = CityBus;
 			packageProductDependencies = (
@@ -109,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C3AFBA62EF7B23E0048D525 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +159,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C3AFBA22EF7B23D0048D525 /* ContentView.swift in Sources */,
+				1C3AFBA42EF7B23D0048D525 /* Item.swift in Sources */,
+				1C3AFBA02EF7B23D0048D525 /* CityBusApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +299,8 @@
 				DEVELOPMENT_TEAM = UG4W8Z8NCX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CityBus/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +333,8 @@
 				DEVELOPMENT_TEAM = UG4W8Z8NCX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CityBus/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
