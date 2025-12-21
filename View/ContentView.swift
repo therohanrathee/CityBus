@@ -1,7 +1,11 @@
 import SwiftUI
 import MapKit
+import SwiftData
 
 struct ContentView: View {
+    @Query private var users: [User]
+    @State private var showLogin = false
+
     @State private var locationManager = LocationManager()
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var activeRoute: RouteResult?
@@ -61,6 +65,12 @@ struct ContentView: View {
         }
         .onAppear {
             locationManager.requestPermission()
+            if users.isEmpty {
+                showLogin = true
+            }
+        }
+        .fullScreenCover(isPresented: $showLogin) {
+            LoginView()
         }
     }
     
