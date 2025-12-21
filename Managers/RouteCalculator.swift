@@ -5,8 +5,7 @@ import MapKit
 class RouteCalculator {
     static let shared = RouteCalculator()
     
-    // MARK: - Data Access
-    // We fetch the data from your other new files
+    // Access Data from the Managers
     var allRoutes: [BusRoute] {
         return RouteManager.shared.allRoutes
     }
@@ -26,10 +25,8 @@ class RouteCalculator {
         }
         
         // 2. Interchange Check (1 Transfer)
-        // Logic: Start -> TransferStop (via Route A) -> End (via Route B)
         for routeA in allRoutes where routeA.stops.contains(start) {
             for routeB in allRoutes where routeB.stops.contains(end) {
-                // Find shared stops between the two routes
                 let commonStops = Set(routeA.stops).intersection(Set(routeB.stops))
                 
                 if let transferStop = commonStops.first {
@@ -55,7 +52,6 @@ class RouteCalculator {
     }
     
     private func createTransferResult(routeA: BusRoute, routeB: BusRoute, start: BusStop, transfer: BusStop, end: BusStop) async -> RouteResult {
-        // Calculate road paths for both legs of the journey simultaneously
         async let path1 = getRoadGeometry(from: start.coordinate, to: transfer.coordinate)
         async let path2 = getRoadGeometry(from: transfer.coordinate, to: end.coordinate)
         
@@ -80,14 +76,22 @@ class RouteCalculator {
         return RouteResult(totalStops: 0, segments: [seg1, seg2])
     }
     
-    // MARK: - LOGIC: Apple Maps API
+    // MARK: - LOGIC: Apple Maps API (Future Proof / Xcode 26+)
     private func getRoadGeometry(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) async -> [CLLocationCoordinate2D] {
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: start))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: end))
+        
+        // FIX for Xcode 26: Create standard CLLocation objects
+        let startLocation = CLLocation(latitude: start.latitude, longitude: start.longitude)
+        let endLocation = CLLocation(latitude: end.latitude, longitude: end.longitude)
+        
+        // FIX: Use the new init(location:address:) initializer
+        // We pass 'nil' for address because we only care about coordinates for routing
+        request.source = MKMapItem(location: startLocation, address: nil)
+        request.destination = MKMapItem(location: endLocation, address: nil)
+        
         request.transportType = .automobile
         
-        // Optimization: If points are super close (less than ~50 meters), skip API call
+        // Optimization: Skip API if points are very close
         if abs(start.latitude - end.latitude) < 0.0005 && abs(start.longitude - end.longitude) < 0.0005 {
             return [start, end]
         }
@@ -102,12 +106,11 @@ class RouteCalculator {
             print("Direction Error: \(error.localizedDescription)")
         }
         
-        // Fallback: If API fails or no internet, draw a straight line
         return [start, end]
     }
 }
 
-// Helper needed to convert Apple's data format to ours
+// Helper needed for geometry
 extension MKPolyline {
     var coordinates: [CLLocationCoordinate2D] {
         var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid, count: pointCount)
