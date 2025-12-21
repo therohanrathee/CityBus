@@ -5,24 +5,25 @@ struct ContentView: View {
     @State private var locationManager = LocationManager()
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     
+    // This holds the route we want to draw
     @State private var activeRoute: RouteResult?
     @State private var isSheetPresented = true
     
     var body: some View {
         ZStack {
-            // MARK: - Map Layer
+            // MARK: - 1. The Map Layer
             if locationManager.isAuthorized {
                 Map(position: $position) {
                     UserAnnotation()
                     
-                    // Draw the calculated route if one exists
+                    // Draw the route if one is selected
                     if let route = activeRoute {
                         ForEach(route.segments) { segment in
-                            // 1. Draw the Line
+                            // Draw the road path
                             MapPolyline(coordinates: segment.pathCoordinates)
                                 .stroke(colorFor(segment.colorHex), lineWidth: 6)
                             
-                            // 2. Mark the Stops
+                            // Draw the stops along the way
                             Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
                                 .tint(colorFor(segment.colorHex))
                             
@@ -36,16 +37,16 @@ struct ContentView: View {
                     MapCompass()
                 }
                 .safeAreaInset(edge: .bottom) {
-                    // Adds spacer so the "Apple Maps" logo isn't hidden by our sheet
+                    // Spacer so Apple Maps logo isn't hidden by the sheet
                     Color.clear.frame(height: 80)
                 }
                 
             } else {
-                // Permission Screen
+                // Permission Denied View
                 ContentUnavailableView(
-                    "Bus Tracking",
-                    systemImage: "bus.fill",
-                    description: Text("Please enable location services to use the app.")
+                    "Location Required",
+                    systemImage: "location.slash.fill",
+                    description: Text("Please enable location permissions to track buses.")
                 )
                 Button("Allow Location") {
                     locationManager.requestPermission()
@@ -53,11 +54,11 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
             }
         }
-        // MARK: - Bottom Sheet Logic
+        // MARK: - 2. The Bottom Sheet
         .sheet(isPresented: $isSheetPresented) {
             SearchSheetView(selectedRoute: $activeRoute, mapPosition: $position)
                 .presentationDetents([.fraction(0.20), .medium, .large])
-                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                .presentationBackgroundInteraction(.enabled(upThrough: .medium)) // Allows map interaction
                 .presentationCornerRadius(25)
                 .interactiveDismissDisabled()
         }
@@ -66,12 +67,7 @@ struct ContentView: View {
         }
     }
     
-    // Helper to convert string to color
     func colorFor(_ hex: String) -> Color {
         return hex == "red" ? .red : .blue
     }
-}
-
-#Preview {
-    ContentView()
 }
