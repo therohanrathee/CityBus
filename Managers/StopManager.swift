@@ -38,7 +38,7 @@ class StopManager {
     
     let sector5Ramlila = BusStop(
         name: "Sector - 5 Ramlila Ground",
-        coordinate: CLLocationCoordinate2D(latitude: 28.48283, longitude: 28.48283)
+        coordinate: CLLocationCoordinate2D(latitude: 28.48279, longitude: 77.02190)
     )
     
     let ashokViharPetrol = BusStop(
