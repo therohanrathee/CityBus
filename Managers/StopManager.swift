@@ -8,12 +8,12 @@ class StopManager {
     
     let gurugramBusStand = BusStop(
         name: "Gurugram Bus Stand",
-        coordinate: CLLocationCoordinate2D(latitude: 28.46524, longitude: 77.03174) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.46524, longitude: 77.03174)
     )
     
     let sector12Chowk = BusStop(
         name: "Sector - 12 Chowk",
-        coordinate: CLLocationCoordinate2D(latitude: 28.47069, longitude: 77.03405) // TODO: UPDATE COORDINATE
+        coordinate: CLLocationCoordinate2D(latitude: 28.47069, longitude: 77.03405)
     )
     
     let rajeevNagarChowk = BusStop(
