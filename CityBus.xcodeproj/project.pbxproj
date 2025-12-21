@@ -11,6 +11,12 @@
 		1C3AFBA22EF7B23D0048D525 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA12EF7B23D0048D525 /* ContentView.swift */; };
 		1C3AFBA42EF7B23D0048D525 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA32EF7B23D0048D525 /* Item.swift */; };
 		1C3AFBA62EF7B23E0048D525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3AFBA52EF7B23E0048D525 /* Assets.xcassets */; };
+		1C3AFBB52EF7C7610048D525 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBB42EF7C2BA0048D525 /* LocationManager.swift */; };
+		1C3AFBB72EF7CFA30048D525 /* BusModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBB62EF7CF9E0048D525 /* BusModels.swift */; };
+		1C3AFBB92EF7CFC60048D525 /* RouteCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBB82EF7CFC60048D525 /* RouteCalculator.swift */; };
+		1C3AFBBB2EF7D00A0048D525 /* SearchSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBA2EF7D00A0048D525 /* SearchSheetView.swift */; };
+		1C3AFBBD2EF7D9450048D525 /* StopManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBC2EF7D9450048D525 /* StopManager.swift */; };
+		1C3AFBBF2EF7D9700048D525 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +27,11 @@
 		1C3AFBA52EF7B23E0048D525 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C3AFBAC2EF7B59F0048D525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C3AFBB42EF7C2BA0048D525 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1C3AFBB62EF7CF9E0048D525 /* BusModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusModels.swift; sourceTree = "<group>"; };
+		1C3AFBB82EF7CFC60048D525 /* RouteCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCalculator.swift; sourceTree = "<group>"; };
+		1C3AFBBA2EF7D00A0048D525 /* SearchSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheetView.swift; sourceTree = "<group>"; };
+		1C3AFBBC2EF7D9450048D525 /* StopManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopManager.swift; sourceTree = "<group>"; };
+		1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +77,7 @@
 		1C3AFBB12EF7C1FC0048D525 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1C3AFBBA2EF7D00A0048D525 /* SearchSheetView.swift */,
 				1C3AFBA12EF7B23D0048D525 /* ContentView.swift */,
 			);
 			path = View;
@@ -74,6 +86,9 @@
 		1C3AFBB22EF7C2070048D525 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */,
+				1C3AFBBC2EF7D9450048D525 /* StopManager.swift */,
+				1C3AFBB82EF7CFC60048D525 /* RouteCalculator.swift */,
 				1C3AFBB42EF7C2BA0048D525 /* LocationManager.swift */,
 			);
 			path = Managers;
@@ -82,6 +97,7 @@
 		1C3AFBB32EF7C20F0048D525 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1C3AFBB62EF7CF9E0048D525 /* BusModels.swift */,
 				1C3AFBA32EF7B23D0048D525 /* Item.swift */,
 			);
 			path = Models;
@@ -159,9 +175,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C3AFBB52EF7C7610048D525 /* LocationManager.swift in Sources */,
 				1C3AFBA22EF7B23D0048D525 /* ContentView.swift in Sources */,
 				1C3AFBA42EF7B23D0048D525 /* Item.swift in Sources */,
+				1C3AFBBB2EF7D00A0048D525 /* SearchSheetView.swift in Sources */,
+				1C3AFBB72EF7CFA30048D525 /* BusModels.swift in Sources */,
+				1C3AFBBD2EF7D9450048D525 /* StopManager.swift in Sources */,
+				1C3AFBBF2EF7D9700048D525 /* RouteManager.swift in Sources */,
 				1C3AFBA02EF7B23D0048D525 /* CityBusApp.swift in Sources */,
+				1C3AFBB92EF7CFC60048D525 /* RouteCalculator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,13 +321,16 @@
 				DEVELOPMENT_TEAM = UG4W8Z8NCX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CityBus/Info.plist;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,13 +358,16 @@
 				DEVELOPMENT_TEAM = UG4W8Z8NCX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CityBus/Info.plist;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Used to Determine Nearest Bus Stop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -1,61 +1,77 @@
-//
-//  ContentView.swift
-//  CityBus
-//
-//  Created by Rohan Rathee on 21/12/25.
-//
-
 import SwiftUI
-import SwiftData
+import MapKit
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var locationManager = LocationManager()
+    @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
+    
+    @State private var activeRoute: RouteResult?
+    @State private var isSheetPresented = true
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        ZStack {
+            // MARK: - Map Layer
+            if locationManager.isAuthorized {
+                Map(position: $position) {
+                    UserAnnotation()
+                    
+                    // Draw the calculated route if one exists
+                    if let route = activeRoute {
+                        ForEach(route.segments) { segment in
+                            // 1. Draw the Line
+                            MapPolyline(coordinates: segment.pathCoordinates)
+                                .stroke(colorFor(segment.colorHex), lineWidth: 6)
+                            
+                            // 2. Mark the Stops
+                            Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
+                                .tint(colorFor(segment.colorHex))
+                            
+                            Marker(segment.toStop.name, coordinate: segment.toStop.coordinate)
+                                .tint(colorFor(segment.colorHex))
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                .mapControls {
+                    MapUserLocationButton()
+                    MapCompass()
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+                .safeAreaInset(edge: .bottom) {
+                    // Adds spacer so the "Apple Maps" logo isn't hidden by our sheet
+                    Color.clear.frame(height: 80)
                 }
+                
+            } else {
+                // Permission Screen
+                ContentUnavailableView(
+                    "Bus Tracking",
+                    systemImage: "bus.fill",
+                    description: Text("Please enable location services to use the app.")
+                )
+                Button("Allow Location") {
+                    locationManager.requestPermission()
+                }
+                .buttonStyle(.borderedProminent)
             }
-        } detail: {
-            Text("Select an item")
+        }
+        // MARK: - Bottom Sheet Logic
+        .sheet(isPresented: $isSheetPresented) {
+            SearchSheetView(selectedRoute: $activeRoute, mapPosition: $position)
+                .presentationDetents([.fraction(0.20), .medium, .large])
+                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                .presentationCornerRadius(25)
+                .interactiveDismissDisabled()
+        }
+        .onAppear {
+            locationManager.requestPermission()
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
+    
+    // Helper to convert string to color
+    func colorFor(_ hex: String) -> Color {
+        return hex == "red" ? .red : .blue
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }

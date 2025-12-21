@@ -1,10 +1,3 @@
-//
-//  CityBusApp.swift
-//  CityBus
-//
-//  Created by Rohan Rathee on 21/12/25.
-//
-
 import SwiftUI
 import SwiftData
 
