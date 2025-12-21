@@ -4,8 +4,6 @@ import MapKit
 struct ContentView: View {
     @State private var locationManager = LocationManager()
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
-    
-    // This holds the route we want to draw
     @State private var activeRoute: RouteResult?
     @State private var isSheetPresented = true
     
@@ -16,17 +14,12 @@ struct ContentView: View {
                 Map(position: $position) {
                     UserAnnotation()
                     
-                    // Draw the route if one is selected
                     if let route = activeRoute {
                         ForEach(route.segments) { segment in
-                            // Draw the road path
                             MapPolyline(coordinates: segment.pathCoordinates)
                                 .stroke(colorFor(segment.colorHex), lineWidth: 6)
-                            
-                            // Draw the stops along the way
                             Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
                                 .tint(colorFor(segment.colorHex))
-                            
                             Marker(segment.toStop.name, coordinate: segment.toStop.coordinate)
                                 .tint(colorFor(segment.colorHex))
                         }
@@ -37,16 +30,14 @@ struct ContentView: View {
                     MapCompass()
                 }
                 .safeAreaInset(edge: .bottom) {
-                    // Spacer so Apple Maps logo isn't hidden by the sheet
-                    Color.clear.frame(height: 80)
+                    Color.clear.frame(height: 100)
                 }
                 
             } else {
-                // Permission Denied View
                 ContentUnavailableView(
                     "Location Required",
                     systemImage: "location.slash.fill",
-                    description: Text("Please enable location permissions to track buses.")
+                    description: Text("Please enable location permissions.")
                 )
                 Button("Allow Location") {
                     locationManager.requestPermission()
@@ -56,11 +47,17 @@ struct ContentView: View {
         }
         // MARK: - 2. The Bottom Sheet
         .sheet(isPresented: $isSheetPresented) {
-            SearchSheetView(selectedRoute: $activeRoute, mapPosition: $position)
-                .presentationDetents([.fraction(0.20), .medium, .large])
-                .presentationBackgroundInteraction(.enabled(upThrough: .medium)) // Allows map interaction
-                .presentationCornerRadius(25)
-                .interactiveDismissDisabled()
+            SearchSheetView(
+                selectedRoute: $activeRoute,
+                mapPosition: $position,
+                userLocation: locationManager.location
+            )
+            // FIX: .height(80) creates the "Compact Pill" look
+            .presentationDetents([.height(80), .medium, .large])
+            .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+            .presentationBackground(.clear) // Transparent wrapper
+            .presentationDragIndicator(.visible) // System handle (small grey line)
+            .interactiveDismissDisabled()
         }
         .onAppear {
             locationManager.requestPermission()
