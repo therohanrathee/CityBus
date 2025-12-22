@@ -11,7 +11,6 @@ class RouteCalculator {
     
     // MARK: - Find Nearest Stop
     func findNearestStop(to userLocation: CLLocation) -> BusStop? {
-        // Sort all stops by distance to the user and return the first one
         return allStops.min { stop1, stop2 in
             let loc1 = CLLocation(latitude: stop1.coordinate.latitude, longitude: stop1.coordinate.longitude)
             let loc2 = CLLocation(latitude: stop2.coordinate.latitude, longitude: stop2.coordinate.longitude)
@@ -22,8 +21,9 @@ class RouteCalculator {
     // MARK: - LOGIC: Smart Route Finder
     func findRoute(from start: BusStop, to end: BusStop) async -> RouteResult? {
         
-        // 1. Direct Route (With Stop-by-Stop Pathing)
+        // 1. Direct Route
         for route in allRoutes {
+            // This will now only return true if the route is going the CORRECT direction
             if let pathStops = getStopsBetween(start: start, end: end, in: route) {
                 return await createSmartDirectResult(route: route, pathStops: pathStops, start: start, end: end)
             }
@@ -41,31 +41,30 @@ class RouteCalculator {
         return nil
     }
     
-    // MARK: - HELPER: Extract specific stops for the journey
+    // MARK: - HELPER: Extract specific stops (STRICT DIRECTION)
     private func getStopsBetween(start: BusStop, end: BusStop, in route: BusRoute) -> [BusStop]? {
         guard let startIndex = route.stops.firstIndex(of: start),
               let endIndex = route.stops.firstIndex(of: end) else { return nil }
         
-        // Ensure we go in the right direction (Up or Down)
+        // FIX: STRICT ONE-WAY LOGIC
+        // If startIndex < endIndex, we are moving forward (Correct).
+        // If startIndex > endIndex, we are moving backward (Wrong Route).
         if startIndex < endIndex {
             return Array(route.stops[startIndex...endIndex])
         } else {
-            return Array(route.stops[endIndex...startIndex].reversed())
+            // Return nil. This forces the loop to check the NEXT route (the DOWN route)
+            return nil
         }
     }
 
-    // MARK: - HELPER: Build Geometry Segment-by-Segment
+    // MARK: - HELPER: Build Geometry
     private func createSmartDirectResult(route: BusRoute, pathStops: [BusStop], start: BusStop, end: BusStop) async -> RouteResult {
         
         var fullPathCoordinates: [CLLocationCoordinate2D] = []
         
-        // Loop through every pair of stops (A->B, B->C)
         for i in 0..<(pathStops.count - 1) {
             let segmentStart = pathStops[i]
             let segmentEnd = pathStops[i+1]
-            
-            // REMOVED: Safety Guard.
-            // Now, if a stop is at (0,0), it will draw a line to Africa so you can spot the error.
             
             let segmentCoords = await getRoadGeometry(from: segmentStart.coordinate, to: segmentEnd.coordinate)
             fullPathCoordinates.append(contentsOf: segmentCoords)
@@ -92,21 +91,14 @@ class RouteCalculator {
         return RouteResult(totalStops: 0, segments: [seg1, seg2])
     }
     
-    // MARK: - API CALL (Future Proof / Xcode 26+)
+    // MARK: - API CALL
     private func getRoadGeometry(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) async -> [CLLocationCoordinate2D] {
         let request = MKDirections.Request()
-        let startLoc = CLLocation(latitude: start.latitude, longitude: start.longitude)
-        let endLoc = CLLocation(latitude: end.latitude, longitude: end.longitude)
-        
-        // Modern API
-        request.source = MKMapItem(location: startLoc, address: nil)
-        request.destination = MKMapItem(location: endLoc, address: nil)
-        
-        // FIX: CHANGED TO WALKING TO AVOID U-TURNS
-        // Walking ignores road dividers, so the line will snap to the road but won't loop around
+        request.source = MKMapItem(location: CLLocation(latitude: start.latitude, longitude: start.longitude), address: nil)
+        request.destination = MKMapItem(location: CLLocation(latitude: end.latitude, longitude: end.longitude), address: nil)
         request.transportType = .walking
         
-        // Optimization: Skip API if points are super close
+        // Optimization
         if abs(start.latitude - end.latitude) < 0.0005 && abs(start.longitude - end.longitude) < 0.0005 {
             return [start, end]
         }
@@ -114,17 +106,14 @@ class RouteCalculator {
         do {
             let directions = MKDirections(request: request)
             let response = try await directions.calculate()
-            if let route = response.routes.first {
-                return route.polyline.coordinates
-            }
+            return response.routes.first?.polyline.coordinates ?? [start, end]
         } catch {
-            print("Direction Error: \(error.localizedDescription)")
+            return [start, end]
         }
-        return [start, end]
     }
 }
 
-// MARK: - Helper Extension
+// Extension
 extension MKPolyline {
     var coordinates: [CLLocationCoordinate2D] {
         var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid, count: pointCount)

@@ -17,6 +17,7 @@
 		1C3AFBBB2EF7D00A0048D525 /* SearchSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBA2EF7D00A0048D525 /* SearchSheetView.swift */; };
 		1C3AFBBD2EF7D9450048D525 /* StopManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBC2EF7D9450048D525 /* StopManager.swift */; };
 		1C3AFBBF2EF7D9700048D525 /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */; };
+		1CE06D1A2EF92899000876DB /* BusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE06D192EF92899000876DB /* BusManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1C3AFBBA2EF7D00A0048D525 /* SearchSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSheetView.swift; sourceTree = "<group>"; };
 		1C3AFBBC2EF7D9450048D525 /* StopManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopManager.swift; sourceTree = "<group>"; };
 		1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		1CE06D192EF92899000876DB /* BusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		1C3AFBB22EF7C2070048D525 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1CE06D192EF92899000876DB /* BusManager.swift */,
 				1C3AFBBE2EF7D9700048D525 /* RouteManager.swift */,
 				1C3AFBBC2EF7D9450048D525 /* StopManager.swift */,
 				1C3AFBB82EF7CFC60048D525 /* RouteCalculator.swift */,
@@ -177,6 +180,7 @@
 			files = (
 				1C3AFBB52EF7C7610048D525 /* LocationManager.swift in Sources */,
 				1C3AFBA22EF7B23D0048D525 /* ContentView.swift in Sources */,
+				1CE06D1A2EF92899000876DB /* BusManager.swift in Sources */,
 				1C3AFBA42EF7B23D0048D525 /* Item.swift in Sources */,
 				1C3AFBBB2EF7D00A0048D525 /* SearchSheetView.swift in Sources */,
 				1C3AFBB72EF7CFA30048D525 /* BusModels.swift in Sources */,

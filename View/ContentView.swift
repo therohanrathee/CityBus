@@ -15,13 +15,34 @@ struct ContentView: View {
                     UserAnnotation()
                     
                     if let route = activeRoute {
+                        
+                        // A. Draw the Route Line
                         ForEach(route.segments) { segment in
                             MapPolyline(coordinates: segment.pathCoordinates)
                                 .stroke(colorFor(segment.colorHex), lineWidth: 6)
+                            
+                            // Draw Stops
                             Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
                                 .tint(colorFor(segment.colorHex))
                             Marker(segment.toStop.name, coordinate: segment.toStop.coordinate)
                                 .tint(colorFor(segment.colorHex))
+                        }
+                        
+                        // B. Draw Static Buses
+                        // Filter to show only buses matching this route number (e.g. "222C UP")
+                        ForEach(BusManager.shared.staticBuses.filter { $0.routeNumber == route.segments.first?.routeNumber }) { bus in
+                            Annotation(bus.routeNumber, coordinate: bus.coordinate) {
+                                ZStack {
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 30, height: 30)
+                                        .shadow(radius: 2)
+                                    
+                                    Image(systemName: "bus.fill")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(colorForRoute(bus.routeNumber))
+                                }
+                            }
                         }
                     }
                 }
@@ -52,11 +73,10 @@ struct ContentView: View {
                 mapPosition: $position,
                 userLocation: locationManager.location
             )
-            // FIX: .height(80) creates the "Compact Pill" look
             .presentationDetents([.height(80), .medium, .large])
             .presentationBackgroundInteraction(.enabled(upThrough: .medium))
-            .presentationBackground(.clear) // Transparent wrapper
-            .presentationDragIndicator(.visible) // System handle (small grey line)
+            .presentationBackground(.clear)
+            .presentationDragIndicator(.visible)
             .interactiveDismissDisabled()
         }
         .onAppear {
@@ -64,7 +84,12 @@ struct ContentView: View {
         }
     }
     
+    // Helpers for Colors
     func colorFor(_ hex: String) -> Color {
         return hex == "red" ? .red : .blue
+    }
+    
+    func colorForRoute(_ number: String) -> Color {
+        return number.contains("DOWN") ? .red : .blue
     }
 }

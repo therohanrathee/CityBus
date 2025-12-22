@@ -16,19 +16,19 @@ struct BusStop: Identifiable, Hashable, Equatable {
     }
 }
 
-// 2. A Bus Route (Sequence of stops)
+// 2. A Bus Route
 struct BusRoute: Identifiable {
     let id = UUID()
-    let routeNumber: String
+    let routeNumber: String // e.g. "222C UP"
     let stops: [BusStop]
-    let colorHex: String // "red" or "blue"
+    let colorHex: String
 }
 
-// 3. The Result of a Search (A path users will take)
+// 3. Search Result
 struct RouteResult: Identifiable {
     let id = UUID()
     let totalStops: Int
-    let segments: [RouteSegment] // Can be 1 segment (direct) or 2 (transfer)
+    let segments: [RouteSegment]
 }
 
 struct RouteSegment: Identifiable {
@@ -38,4 +38,12 @@ struct RouteSegment: Identifiable {
     let toStop: BusStop
     let pathCoordinates: [CLLocationCoordinate2D]
     let colorHex: String
+}
+
+// 4. NEW: The Static Bus Vehicle
+struct Bus: Identifiable {
+    let id = UUID()
+    let routeNumber: String // Matches the route (e.g., "222C UP")
+    let coordinate: CLLocationCoordinate2D
+    let direction: String // "UP" or "DOWN" (Just for reference)
 }

@@ -3,14 +3,12 @@ import Foundation
 class RouteManager {
     static let shared = RouteManager()
     
-    // Access the stops
     private let stops = StopManager.shared
     
-    // --- MASTER ROUTE INVENTORY ---
-    
-    var route222C: BusRoute {
+    // --- 1. UP ROUTE (Gurugram -> Palam Vihar) ---
+    var route222C_UP: BusRoute {
         BusRoute(
-            routeNumber: "222C",
+            routeNumber: "222C UP",
             stops: [
                 stops.gurugramBusStand,
                 stops.sector12Chowk,
@@ -30,12 +28,22 @@ class RouteManager {
                 stops.cosmosApt,
                 stops.ramMandir
             ],
-            colorHex: "red"
+            colorHex: "blue"
+        )
+    }
+    
+    // --- 2. DOWN ROUTE (Palam Vihar -> Gurugram) ---
+    // We simply reverse the stops of the UP route
+    var route222C_DOWN: BusRoute {
+        BusRoute(
+            routeNumber: "222C DOWN",
+            stops: route222C_UP.stops.reversed(),
+            colorHex: "red" // Different color to distinguish
         )
     }
     
     // --- Helper to get all routes ---
     var allRoutes: [BusRoute] {
-        return [route222C]
+        return [route222C_UP, route222C_DOWN]
     }
 }
