@@ -39,7 +39,7 @@ struct ContentView: View {
                     
                     if let route = activeRoute {
                         
-                        // A. ROUTE SEGMENTS
+                        // MARK: - ROUTE SEGMENTS
                         ForEach(route.segments) { segment in
                             MapPolyline(coordinates: segment.pathCoordinates)
                                 .stroke(
@@ -51,7 +51,7 @@ struct ContentView: View {
                                     )
                                 )
                             
-                            // B. PINS
+                            // MARK: - PINS
                             if shouldShowPin(for: segment.status) {
                                 Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
                                     .tint(colorForStatus(segment.status))
@@ -63,7 +63,7 @@ struct ContentView: View {
                             }
                         }
                         
-                        // C. STATIC BUSES
+                        // MARK: - STATIC BUSES
                         ForEach(
                             BusManager.shared.staticBuses
                                 .filter { $0.routeNumber == route.segments.first?.routeNumber }
@@ -89,22 +89,24 @@ struct ContentView: View {
                     MapScaleView()
                 }
                 
-                // MARK: - LIQUID GLASS PIN MODE BUTTON
+                // MARK: - SIMPLE PIN MODE BUTTON
                 .overlay(alignment: .topTrailing) {
                     if activeRoute != nil {
                         Button {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            withAnimation(.easeInOut(duration: 0.25)) {
                                 pinMode = pinMode.next()
                             }
                         } label: {
                             Image(systemName: pinMode.iconName)
                                 .font(.system(size: 20, weight: .medium))
-                                .foregroundStyle(.blue)
-                                .liquidGlassCircle()
+                                .foregroundStyle(.primary)
+                                .frame(width: 44, height: 44)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
+                                .shadow(radius: 3)
                         }
                         .padding(.top, 123)
                         .padding(.trailing, 16)
-                        .transition(.scale.combined(with: .opacity))
                     }
                 }
                 .safeAreaInset(edge: .bottom) {
@@ -126,6 +128,7 @@ struct ContentView: View {
                 }
             }
         }
+        // MARK: - SEARCH SHEET
         .sheet(isPresented: $isSheetPresented) {
             SearchSheetView(
                 selectedRoute: $activeRoute,
@@ -158,10 +161,14 @@ struct ContentView: View {
     
     func colorForStatus(_ status: SegmentStatus) -> Color {
         switch status {
-        case .passed: return .gray
-        case .approaching: return .orange
-        case .journey: return .blue
-        case .remaining: return .gray
+        case .passed:
+            return .gray
+        case .approaching:
+            return .orange
+        case .journey:
+            return .blue
+        case .remaining:
+            return .gray
         }
     }
     
@@ -172,55 +179,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-}
-
-/////////////////////////////////////////////////////////////
-// MARK: - REAL LIQUID GLASS IMPLEMENTATION
-/////////////////////////////////////////////////////////////
-
-struct GlassBlur: UIViewRepresentable {
-    var style: UIBlurEffect.Style = .systemUltraThinMaterialDark
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
-}
-
-struct LiquidGlassCircleButton: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .frame(width: 44, height: 44)
-            .background {
-                ZStack {
-                    // TRUE glass blur (no white tint)
-                    GlassBlur(style: .systemUltraThinMaterialDark)
-                        .clipShape(Circle())
-                    
-                    // Subtle edge highlight
-                    Circle()
-                        .stroke(
-                            LinearGradient(
-                                colors: [
-                                    .white.opacity(0.4),
-                                    .white.opacity(0.1),
-                                    .clear
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 0.8
-                        )
-                }
-            }
-            .clipShape(Circle())
-            .shadow(color: .black.opacity(0.35), radius: 10, x: 0, y: 6)
-    }
-}
-
-extension View {
-    func liquidGlassCircle() -> some View {
-        modifier(LiquidGlassCircleButton())
-    }
 }
