@@ -1,7 +1,15 @@
 import Foundation
 import CoreLocation
 
-// 1. A Bus Stop
+// 1. Segment Status Enum (For Color Coding)
+enum SegmentStatus {
+    case passed      // Bus has already passed this (Grey)
+    case approaching // Bus is coming to you (Orange)
+    case journey     // You are on the bus (Blue)
+    case remaining   // After your destination (Grey/Light Blue)
+}
+
+// 2. Bus Stop
 struct BusStop: Identifiable, Hashable, Equatable {
     let id = UUID()
     let name: String
@@ -16,21 +24,22 @@ struct BusStop: Identifiable, Hashable, Equatable {
     }
 }
 
-// 2. A Bus Route
+// 3. Bus Route
 struct BusRoute: Identifiable {
     let id = UUID()
-    let routeNumber: String // e.g. "222C UP"
+    let routeNumber: String
     let stops: [BusStop]
     let colorHex: String
 }
 
-// 3. Search Result
+// 4. Route Result
 struct RouteResult: Identifiable {
     let id = UUID()
     let totalStops: Int
     let segments: [RouteSegment]
 }
 
+// 5. Route Segment (Updated with Status)
 struct RouteSegment: Identifiable {
     let id = UUID()
     let routeNumber: String
@@ -38,12 +47,13 @@ struct RouteSegment: Identifiable {
     let toStop: BusStop
     let pathCoordinates: [CLLocationCoordinate2D]
     let colorHex: String
+    let status: SegmentStatus // <--- NEW FIELD
 }
 
-// 4. NEW: The Static Bus Vehicle
+// 6. Bus Vehicle
 struct Bus: Identifiable {
     let id = UUID()
-    let routeNumber: String // Matches the route (e.g., "222C UP")
+    let routeNumber: String
     let coordinate: CLLocationCoordinate2D
-    let direction: String // "UP" or "DOWN" (Just for reference)
+    let direction: String
 }

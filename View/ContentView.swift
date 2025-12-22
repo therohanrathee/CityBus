@@ -9,27 +9,34 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // MARK: - 1. The Map Layer
             if locationManager.isAuthorized {
                 Map(position: $position) {
                     UserAnnotation()
                     
                     if let route = activeRoute {
                         
-                        // A. Draw the Route Line
+                        // A. DRAW ROUTE SEGMENTS
                         ForEach(route.segments) { segment in
                             MapPolyline(coordinates: segment.pathCoordinates)
-                                .stroke(colorFor(segment.colorHex), lineWidth: 6)
+                                .stroke(
+                                    colorForStatus(segment.status),
+                                    style: StrokeStyle(
+                                        lineWidth: 7, // Thicker for rounder look
+                                        lineCap: .round, // <--- CLOSES THE GAP
+                                        lineJoin: .round // <--- SMOOTHS CORNERS
+                                    )
+                                )
                             
-                            // Draw Stops
-                            Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
-                                .tint(colorFor(segment.colorHex))
-                            Marker(segment.toStop.name, coordinate: segment.toStop.coordinate)
-                                .tint(colorFor(segment.colorHex))
+                            // Show markers for critical points
+                            if segment.status == .journey || segment.status == .approaching {
+                                Marker(segment.fromStop.name, coordinate: segment.fromStop.coordinate)
+                                    .tint(colorForStatus(segment.status))
+                                Marker(segment.toStop.name, coordinate: segment.toStop.coordinate)
+                                    .tint(colorForStatus(segment.status))
+                            }
                         }
                         
-                        // B. Draw Static Buses
-                        // Filter to show only buses matching this route number (e.g. "222C UP")
+                        // B. DRAW STATIC BUSES
                         ForEach(BusManager.shared.staticBuses.filter { $0.routeNumber == route.segments.first?.routeNumber }) { bus in
                             Annotation(bus.routeNumber, coordinate: bus.coordinate) {
                                 ZStack {
@@ -55,18 +62,10 @@ struct ContentView: View {
                 }
                 
             } else {
-                ContentUnavailableView(
-                    "Location Required",
-                    systemImage: "location.slash.fill",
-                    description: Text("Please enable location permissions.")
-                )
-                Button("Allow Location") {
-                    locationManager.requestPermission()
-                }
-                .buttonStyle(.borderedProminent)
+                ContentUnavailableView("Location Required", systemImage: "location.slash.fill", description: Text("Enable location."))
+                Button("Allow Location") { locationManager.requestPermission() }.buttonStyle(.borderedProminent)
             }
         }
-        // MARK: - 2. The Bottom Sheet
         .sheet(isPresented: $isSheetPresented) {
             SearchSheetView(
                 selectedRoute: $activeRoute,
@@ -84,9 +83,18 @@ struct ContentView: View {
         }
     }
     
-    // Helpers for Colors
-    func colorFor(_ hex: String) -> Color {
-        return hex == "red" ? .red : .blue
+    // MARK: - Color Logic
+    func colorForStatus(_ status: SegmentStatus) -> Color {
+        switch status {
+        case .passed:
+            return .gray // Solid Grey (Visible)
+        case .approaching:
+            return .orange
+        case .journey:
+            return .blue
+        case .remaining:
+            return .gray // Solid Grey
+        }
     }
     
     func colorForRoute(_ number: String) -> Color {
