@@ -8,8 +8,8 @@ class SupabaseManager {
     // Go to: Supabase Dashboard -> Project Settings (Gear Icon) -> API
     
     let client = SupabaseClient(
-        supabaseURL: URL(string: "YOUR_PROJECT_URL_HERE")!,
-        supabaseKey: "YOUR_ANON_PUBLIC_KEY_HERE"
+        supabaseURL: URL(string: "https://uyulxqhsuqbddxpvzuvz.supabase.co")!,
+        supabaseKey: "sb_publishable_2dd7TzqAIi1vB-27BkOMGg_XxzpKT3P"
     )
 
     private init() {}
