@@ -176,7 +176,3 @@ struct ContentView: View {
         number.contains("DOWN") ? .red : .blue
     }
 }
-
-#Preview {
-    ContentView()
-}

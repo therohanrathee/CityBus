@@ -33,7 +33,7 @@ class RouteManager {
     }
     
     // --- 2. DOWN ROUTE (Palam Vihar -> Gurugram) ---
-    // We simply reverse the stops of the UP route
+    
     var route222C_DOWN: BusRoute {
         BusRoute(
             routeNumber: "222C DOWN",
@@ -42,7 +42,7 @@ class RouteManager {
         )
     }
     
-    // --- Helper to get all routes ---
+    
     var allRoutes: [BusRoute] {
         return [route222C_UP, route222C_DOWN]
     }

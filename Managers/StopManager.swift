@@ -91,7 +91,7 @@ class StopManager {
         coordinate: CLLocationCoordinate2D(latitude: 28.51501, longitude: 77.03449)
     )
     
-    // --- Helper to get all stops as a list ---
+    
     var allStops: [BusStop] {
         return [
             gurugramBusStand, sector12Chowk, rajeevNagarChowk, crpfCampChowk,

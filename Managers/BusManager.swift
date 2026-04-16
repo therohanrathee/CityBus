@@ -4,7 +4,7 @@ import CoreLocation
 class BusManager {
     static let shared = BusManager()
     
-    // Access stops to place buses exactly at the stop location
+    
     private let stops = StopManager.shared
     
     var staticBuses: [Bus] {
